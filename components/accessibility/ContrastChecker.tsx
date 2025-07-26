@@ -28,10 +28,10 @@ function ContrastResult({
 }: ContrastResultProps) {
   const getIcon = () => {
     if (level === "AAA")
-      return <CheckCircle className="h-4 w-4 text-green-600" />;
+      return <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-600" />;
     if (level === "AA")
-      return <CheckCircle className="h-4 w-4 text-yellow-600" />;
-    return <AlertTriangle className="h-4 w-4 text-red-600" />;
+      return <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-600" />;
+    return <AlertTriangle className="h-3 w-3 sm:h-4 sm:w-4 text-red-600" />;
   };
 
   const getBadgeVariant = () => {
@@ -41,27 +41,32 @@ function ContrastResult({
   };
 
   return (
-    <div className="flex items-center justify-between p-3 rounded-lg border">
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2">
+    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 p-3 rounded-lg border overflow-hidden">
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
           <div
-            className="w-4 h-4 rounded border"
+            className="w-3 h-3 sm:w-4 sm:h-4 rounded border flex-shrink-0"
             style={{ backgroundColor: foreground }}
           />
-          <span className="text-sm">on</span>
+          <span className="text-xs sm:text-sm text-muted-foreground">on</span>
           <div
-            className="w-4 h-4 rounded border"
+            className="w-3 h-3 sm:w-4 sm:h-4 rounded border flex-shrink-0"
             style={{ backgroundColor: background }}
           />
         </div>
-        <span className="text-sm font-medium">{label}</span>
+        <span className="text-xs sm:text-sm font-medium truncate">{label}</span>
       </div>
 
-      <div className="flex items-center gap-2">
-        <span className="text-sm text-muted-foreground">{ratio}:1</span>
-        <Badge variant={getBadgeVariant()} className="flex items-center gap-1">
+      <div className="flex items-center gap-2 flex-shrink-0 min-w-0">
+        <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">
+          {ratio}:1
+        </span>
+        <Badge
+          variant={getBadgeVariant()}
+          className="flex items-center gap-1 text-xs whitespace-nowrap"
+        >
           {getIcon()}
-          {level === "fail" ? "Fail" : level}
+          <span>{level === "fail" ? "Fail" : level}</span>
         </Badge>
       </div>
     </div>
@@ -119,11 +124,11 @@ export function ContrastChecker({ palette, theme }: ContrastCheckerProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div className="flex items-center gap-2">
-            <Shield className="h-5 w-5" />
-            Accessibility Check
+            <Shield className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span className="text-base sm:text-lg">Accessibility Check</span>
           </div>
           <Badge
             variant={
@@ -133,6 +138,7 @@ export function ContrastChecker({ palette, theme }: ContrastCheckerProps) {
                 ? "secondary"
                 : "destructive"
             }
+            className="self-start sm:self-auto"
           >
             {passedCount}/{totalCount} Passed
           </Badge>
@@ -151,10 +157,12 @@ export function ContrastChecker({ palette, theme }: ContrastCheckerProps) {
         ))}
 
         <div className="mt-4 p-3 bg-muted rounded-lg">
-          <div className="text-sm text-muted-foreground">
-            <div className="font-medium mb-1">WCAG Guidelines:</div>
-            <div>• AA: 4.5:1 for normal text, 3:1 for large text</div>
-            <div>• AAA: 7:1 for normal text, 4.5:1 for large text</div>
+          <div className="text-xs sm:text-sm text-muted-foreground">
+            <div className="font-medium mb-1 sm:mb-2">WCAG Guidelines:</div>
+            <div className="space-y-1">
+              <div>• AA: 4.5:1 normal, 3:1 large text</div>
+              <div>• AAA: 7:1 normal, 4.5:1 large text</div>
+            </div>
           </div>
         </div>
       </CardContent>

@@ -49,22 +49,15 @@ export const metadata: Metadata = {
     title: "Verge - Your Palette, Perfected.",
     description:
       "Generate beautiful, accessible color palettes for your design projects. Create harmonious color schemes with real-time preview and export to multiple formats.",
-    url: "https://verge-ui.vercel.app/",
+    url: "https://verge-ui.vercel.app",
     siteName: "Verge",
     images: [
       {
-        url: "/verge.png",
+        url: "https://verge-ui.vercel.app/verge.png",
         width: 1200,
         height: 630,
         alt: "Verge - Color Palette Generator",
-      },
-    ],
-    videos: [
-      {
-        url: "/verge.mp4",
-        width: 1200,
-        height: 630,
-        type: "video/mp4",
+        type: "image/png",
       },
     ],
     locale: "en_US",
