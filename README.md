@@ -1,4 +1,8 @@
-# Verge - Color Palette Generator
+<div align="center">
+  <img src="verge.gif" alt="Verge" width="200" />
+</div>
+
+# Color Palette Generator
 
 A color palette generator built with Next.js 15, TypeScript, and ShadCN UI. Generate accessible color palettes for design projects with real-time preview and multiple export formats.
 
