@@ -29,7 +29,7 @@ export const THEME_PRESETS: ThemePreset[] = [
     name: "Tailwind CSS",
     description: "Default Tailwind CSS color palette",
     colors: {
-      primary: createColor("#3B82F6"),
+      primary: createColor("#006156"),
       secondary: createColor("#8B5CF6"),
       accent: createColor("#10B981"),
       background: {

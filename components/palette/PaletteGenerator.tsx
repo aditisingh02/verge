@@ -27,7 +27,7 @@ export function PaletteGenerator({
   onGenerate,
   isGenerating = false,
 }: PaletteGeneratorProps) {
-  const [baseColor, setBaseColor] = useState("#3B82F6");
+  const [baseColor, setBaseColor] = useState("#006156");
   const [harmonyType, setHarmonyType] = useState<
     "complementary" | "analogous" | "triadic" | "split-complementary"
   >("analogous");

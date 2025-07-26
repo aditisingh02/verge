@@ -61,14 +61,14 @@ export function ColorPicker({
           <div className="relative flex-1">
             <Input
               type="text"
-              placeholder="#3B82F6"
+              placeholder="#006156"
               value={inputValue}
               onChange={handleInputChange}
               className={`pr-10 h-9 ${!isValid ? "border-destructive" : ""}`}
             />
             <input
               type="color"
-              value={isValid && inputValue ? inputValue : "#3B82F6"}
+              value={isValid && inputValue ? inputValue : "#006156"}
               onChange={handleColorInputChange}
               className="absolute right-1.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded border cursor-pointer"
             />
@@ -92,7 +92,7 @@ export function ColorPicker({
         )}
 
         <div className="text-xs text-muted-foreground">
-          Enter hex (#3B82F6), rgb, hsl, or color name
+          Enter hex (#006156), rgb, hsl, or color name
         </div>
       </CardContent>
     </Card>

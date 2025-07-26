@@ -53,7 +53,7 @@ export function MockUI({ palette, theme }: MockUIProps) {
         style={styles.surface}
       >
         <div className="flex items-center gap-3">
-          <div className="text-lg font-bold">Palxify</div>
+          <div className="text-lg font-bold">Verge</div>
           <nav className="hidden sm:flex items-center gap-4 text-sm">
             <a href="#" className="hover:opacity-80">
               Home
@@ -78,7 +78,7 @@ export function MockUI({ palette, theme }: MockUIProps) {
 
       {/* Hero Section */}
       <div className="text-center py-6 space-y-3">
-        <h1 className="text-xl font-bold">Beautiful Color Palettes</h1>
+        <h1 className="text-xl font-bold">Your Palette, Perfected.</h1>
         <p className="text-sm opacity-80">
           Generate harmonious colors for your next project
         </p>
@@ -116,79 +116,108 @@ export function MockUI({ palette, theme }: MockUIProps) {
 
       {/* Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <Card style={styles.surface} className="text-xs">
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center justify-between text-sm">
-              <span>Primary Card</span>
-              <Heart
-                className="h-3.5 w-3.5"
-                style={{ color: palette.accent.hex }}
-              />
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-0">
-            <p className="text-xs opacity-80 mb-3">
-              This card demonstrates the primary color scheme.
-            </p>
-            <div className="flex gap-1">
-              <Badge style={styles.primary} className="text-xs px-2 py-0.5">
-                Primary
-              </Badge>
-              <Badge
-                variant="outline"
-                style={{
-                  borderColor: palette.secondary.hex,
-                  color: palette.secondary.hex,
-                }}
-                className="text-xs px-2 py-0.5"
-              >
-                Secondary
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card style={styles.surface} className="text-xs">
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center justify-between text-sm">
-              <span>Feature Card</span>
-              <Star
-                className="h-3.5 w-3.5"
-                style={{ color: palette.secondary.hex }}
-              />
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-0">
-            <p className="text-xs opacity-80 mb-3">
-              Secondary colors for highlighting features.
-            </p>
-            <Button size="sm" style={styles.secondary} className="h-7 text-xs">
-              Learn More
-            </Button>
-          </CardContent>
+        <Card
+          className="text-xs border p-3"
+          style={{
+            backgroundColor: surfaceColor,
+            borderColor: palette.primary.hex + "20",
+            color: textColor,
+          }}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-sm font-semibold">Primary Card</h3>
+            <Heart
+              className="h-3.5 w-3.5"
+              style={{ color: palette.primary.hex }}
+            />
+          </div>
+          <p className="text-xs opacity-80 mb-4">
+            This card demonstrates the primary color scheme.
+          </p>
+          <div className="flex flex-wrap gap-1">
+            <Badge
+              className="text-xs px-2 py-0.5 border-0"
+              style={{
+                backgroundColor: palette.primary.hex + "20",
+                color: palette.primary.hex,
+              }}
+            >
+              Primary
+            </Badge>
+            <Badge
+              variant="outline"
+              style={{
+                borderColor: palette.secondary.hex + "40",
+                color: palette.secondary.hex,
+                backgroundColor: "transparent",
+              }}
+              className="text-xs px-2 py-0.5"
+            >
+              Secondary
+            </Badge>
+          </div>
         </Card>
 
         <Card
-          style={styles.surface}
-          className="text-xs sm:col-span-2 lg:col-span-1"
+          className="text-xs border p-3"
+          style={{
+            backgroundColor: surfaceColor,
+            borderColor: palette.secondary.hex + "20",
+            color: textColor,
+          }}
         >
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center justify-between text-sm">
-              <span>Action Card</span>
-              <ShoppingCart
-                className="h-3.5 w-3.5"
-                style={{ color: palette.accent.hex }}
-              />
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-0">
-            <p className="text-xs opacity-80 mb-3">
-              Accent colors for call-to-action elements.
-            </p>
-            <Button size="sm" style={styles.accent} className="h-7 text-xs">
-              Add to Cart
-            </Button>
-          </CardContent>
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-sm font-semibold">Feature Card</h3>
+            <Star
+              className="h-3.5 w-3.5"
+              style={{ color: palette.secondary.hex }}
+            />
+          </div>
+          <p className="text-xs opacity-80 mb-4">
+            Secondary colors for highlighting features.
+          </p>
+          <Button
+            size="sm"
+            className="h-7 text-xs border-0 w-full"
+            style={{
+              backgroundColor: palette.secondary.hex + "15",
+              color: palette.secondary.hex,
+              border: `1px solid ${palette.secondary.hex}40`,
+            }}
+          >
+            Learn More
+          </Button>
+        </Card>
+
+        <Card
+          className="text-xs sm:col-span-2 lg:col-span-1 border p-3"
+          style={{
+            backgroundColor: surfaceColor,
+            borderColor: palette.accent.hex + "20",
+            color: textColor,
+          }}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-sm font-semibold">Action Card</h3>
+            <ShoppingCart
+              className="h-3.5 w-3.5"
+              style={{ color: palette.accent.hex }}
+            />
+          </div>
+          <p className="text-xs opacity-80 mb-4">
+            Accent colors for call-to-action elements.
+          </p>
+          <Button
+            size="sm"
+            className="h-7 text-xs border-0 w-full"
+            style={{
+              backgroundColor: palette.accent.hex + "15",
+              color: palette.accent.hex,
+              border: `1px solid ${palette.accent.hex}40`,
+            }}
+          >
+            Add to Cart
+          </Button>
         </Card>
       </div>
 

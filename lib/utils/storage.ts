@@ -1,9 +1,9 @@
 import { ColorPalette } from "@/types/palette";
 
 const STORAGE_KEYS = {
-  SAVED_PALETTES: "palxify_saved_palettes",
-  USER_PREFERENCES: "palxify_user_preferences",
-  FAVORITES: "palxify_favorites",
+  SAVED_PALETTES: "verge_saved_palettes",
+  USER_PREFERENCES: "verge_user_preferences",
+  FAVORITES: "verge_favorites",
 };
 
 export interface UserPreferences {

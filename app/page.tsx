@@ -27,6 +27,9 @@ export default function Home() {
   } = useColorPalette();
 
   const [previewTheme, setPreviewTheme] = useState<"light" | "dark">("light");
+  const [activeTab, setActiveTab] = useState<"generate" | "presets">(
+    "generate"
+  );
 
   const handleGeneratePalette = async (
     baseColor: string,
@@ -50,19 +53,19 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/10">
       {/* Header */}
       <header className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
+              {/* <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
                 <Palette className="h-4 w-4 text-primary-foreground" />
-              </div>
+              </div> */}
               <div>
-                <h1 className="text-2xl font-bold tracking-tight">Palxify</h1>
+                <h1 className="text-2xl font-bold tracking-tight">Verge</h1>
                 <p className="text-sm text-muted-foreground">
-                  Beautiful color palettes
+                  Your Palette, Perfected.
                 </p>
               </div>
             </div>
@@ -94,7 +97,13 @@ export default function Home() {
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
           {/* Left Sidebar - Controls */}
           <div className="xl:col-span-3 space-y-6">
-            <Tabs defaultValue="generate" className="w-full">
+            <Tabs
+              value={activeTab}
+              onValueChange={(value) =>
+                setActiveTab(value as "generate" | "presets")
+              }
+              className="w-full"
+            >
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="generate" className="gap-2">
                   <Sparkles className="h-4 w-4" />
@@ -182,11 +191,18 @@ export default function Home() {
                       </p>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                      <Button className="gap-2">
+                      <Button
+                        className="gap-2"
+                        onClick={() => setActiveTab("generate")}
+                      >
                         <Sparkles className="h-4 w-4" />
                         Generate Palette
                       </Button>
-                      <Button variant="outline" className="gap-2">
+                      <Button
+                        variant="outline"
+                        className="gap-2"
+                        onClick={() => setActiveTab("presets")}
+                      >
                         <Palette className="h-4 w-4" />
                         Browse Presets
                       </Button>
