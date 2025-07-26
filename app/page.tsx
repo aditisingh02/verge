@@ -63,10 +63,9 @@ export default function Home() {
                 <Palette className="h-4 w-4 text-primary-foreground" />
               </div> */}
               <div>
-                <h1 className="text-2xl font-bold tracking-tight">Verge</h1>
-                <p className="text-sm text-muted-foreground">
-                  Your Palette, Perfected.
-                </p>
+                <h1 className="text-4xl font tracking-tight font-[family-name:var(--font-staatliches)]">
+                  Verge
+                </h1>
               </div>
             </div>
             {currentPalette && (
@@ -75,10 +74,10 @@ export default function Home() {
                   format={colorFormat}
                   onChange={setColorFormat}
                 />
-                <Button onClick={handleSavePalette} size="sm" className="gap-2">
+                {/* <Button onClick={handleSavePalette} size="sm" className="gap-2">
                   <Save className="h-4 w-4" />
                   Save
-                </Button>
+                </Button> */}
               </div>
             )}
           </div>
