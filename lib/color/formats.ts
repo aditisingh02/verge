@@ -17,7 +17,7 @@ export function createColor(input: string): Color {
         b: Math.round(chromaColor.rgb()[2]),
       },
     };
-  } catch (error) {
+  } catch {
     throw new Error(`Invalid color input: ${input}`);
   }
 }

@@ -1,6 +1,7 @@
 import chroma from "chroma-js";
-import { Color, ColorPalette } from "@/types/palette";
-import { createColor, lighten, darken, adjustSaturation } from "./formats";
+import { ColorPalette } from "@/types/palette";
+import { Color } from "@/types/color";
+import { createColor, lighten, adjustSaturation } from "./formats";
 
 export function generateComplementaryColors(baseColor: Color): Color[] {
   const base = chroma(baseColor.hex);
