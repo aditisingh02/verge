@@ -1,4 +1,4 @@
-import { ThemePreset } from "@/types/palette";
+import { ThemePreset, ColorPalette } from "@/types/palette";
 import { createColor } from "@/lib/color/formats";
 
 export const THEME_PRESETS: ThemePreset[] = [

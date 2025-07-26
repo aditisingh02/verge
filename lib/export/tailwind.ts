@@ -1,10 +1,7 @@
 import { ColorPalette } from "@/types/palette";
-import { ExportFormat, ExportOptions } from "@/types/export";
+import { ExportFormat } from "@/types/export";
 
-export function exportToTailwind(
-  palette: ColorPalette,
-  options: ExportOptions = {}
-): ExportFormat {
+export function exportToTailwind(palette: ColorPalette): ExportFormat {
   const tailwindConfig = `// ${palette.name} Tailwind CSS Configuration
 module.exports = {
   theme: {

@@ -28,10 +28,12 @@ export function getSavedPalettes(): ColorPalette[] {
     if (!saved) return [];
 
     const palettes = JSON.parse(saved);
-    return palettes.map((p: any) => ({
-      ...p,
-      createdAt: new Date(p.createdAt),
-    }));
+    return palettes.map(
+      (p: Omit<ColorPalette, "createdAt"> & { createdAt: string }) => ({
+        ...p,
+        createdAt: new Date(p.createdAt),
+      })
+    );
   } catch (error) {
     console.error("Failed to load saved palettes:", error);
     return [];

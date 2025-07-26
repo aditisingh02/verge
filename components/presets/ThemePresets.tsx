@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemePreset, ColorPalette } from "@/types/palette";
+import { ThemePreset, ColorPalette, ThemeType } from "@/types/palette";
 import { PresetCard } from "./PresetCard";
 import { THEME_PRESETS } from "@/lib/presets/themes";
 import { generateColorPalette } from "@/lib/color/harmony";
@@ -18,7 +18,7 @@ export function ThemePresets({ onPresetSelect }: ThemePresetsProps) {
     const palette: ColorPalette = {
       ...basePalette,
       name: preset.name,
-      theme: preset.id as any,
+      theme: preset.id as ThemeType,
       primary: preset.colors.primary || basePalette.primary,
       secondary: preset.colors.secondary || basePalette.secondary,
       accent: preset.colors.accent || basePalette.accent,

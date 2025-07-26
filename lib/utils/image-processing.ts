@@ -14,7 +14,13 @@ export function extractColorsFromImage(
     const ctx = canvas.getContext("2d");
     const img = new Image();
 
+    // Create object URL
+    const objectUrl = URL.createObjectURL(imageFile);
+
     img.onload = () => {
+      // Clean up object URL
+      URL.revokeObjectURL(objectUrl);
+
       try {
         // Set canvas size
         const maxSize = 200; // Reduce image size for faster processing
@@ -41,18 +47,12 @@ export function extractColorsFromImage(
     };
 
     img.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
       reject(new Error("Failed to load image"));
     };
 
-    // Create object URL and load image
-    const objectUrl = URL.createObjectURL(imageFile);
+    // Load image
     img.src = objectUrl;
-
-    // Clean up object URL after loading
-    img.onload = () => {
-      URL.revokeObjectURL(objectUrl);
-      img.onload(); // Call the original onload
-    };
   });
 }
 

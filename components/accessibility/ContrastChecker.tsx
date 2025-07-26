@@ -17,7 +17,6 @@ interface ContrastResultProps {
   background: string;
   ratio: number;
   level: "AAA" | "AA" | "fail";
-  isAccessible: boolean;
 }
 
 function ContrastResult({
@@ -26,7 +25,6 @@ function ContrastResult({
   background,
   ratio,
   level,
-  isAccessible,
 }: ContrastResultProps) {
   const getIcon = () => {
     if (level === "AAA")
@@ -149,7 +147,6 @@ export function ContrastChecker({ palette, theme }: ContrastCheckerProps) {
             background={contrast.background.hex}
             ratio={contrast.result.ratio}
             level={contrast.result.level}
-            isAccessible={contrast.result.isAccessible}
           />
         ))}
 

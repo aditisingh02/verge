@@ -1,10 +1,7 @@
 import { ColorPalette } from "@/types/palette";
-import { ExportFormat, ExportOptions } from "@/types/export";
+import { ExportFormat } from "@/types/export";
 
-export function exportToFigma(
-  palette: ColorPalette,
-  options: ExportOptions = {}
-): ExportFormat {
+export function exportToFigma(palette: ColorPalette): ExportFormat {
   const figmaTokens = {
     global: {
       color: {
