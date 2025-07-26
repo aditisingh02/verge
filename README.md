@@ -48,7 +48,12 @@ A color palette generator built with Next.js 15, TypeScript, and ShadCN UI. Gene
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/verge.git
+git clone https://github.com/aditisingh02/verge.git
+cd verge
+```
+
+```bash
+git clone git@github.com:aditisingh02/verge.git
 cd verge
 ```
 
@@ -90,19 +95,19 @@ pnpm dev
 verge/
 ├── app/                    # Next.js App Router
 ├── components/
-│   ├── ui/                # Reusable UI components
+│   ├── ui/
 │   ├── palette/           # Color palette components
 │   ├── preview/           # Live preview components
-│   ├── accessibility/     # Accessibility checking
-│   ├── presets/          # Theme preset components
-│   └── export/           # Export functionality
+│   ├── accessibility/     # Accessibility check
+│   ├── presets/          # Theme presets
+│   └── export/           # Exports for different formats
 ├── lib/
-│   ├── color/            # Color processing utilities
-│   ├── export/           # Export format generators
-│   ├── presets/          # Theme preset definitions
+│   ├── color/            # Color processing
+│   ├── export/           # generate export format
+│   ├── presets/          # Theme presets
 │   └── utils/            # Utility functions
 ├── types/                # TypeScript type definitions
-└── hooks/                # Custom React hooks
+└── hooks/
 ```
 
 ## Usage
