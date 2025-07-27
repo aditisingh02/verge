@@ -22,7 +22,9 @@ export default function NotFound() {
         </div>
 
         <h1 className="text-2xl font-semibold mb-2">Lost in the colors?</h1>
-        <p className="text-muted-foreground mb-8">This page doesn't exist</p>
+        <p className="text-muted-foreground mb-8">
+          This page doesn&apos;t exist
+        </p>
 
         <div className="flex gap-3 justify-center">
           <Button asChild>
