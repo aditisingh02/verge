@@ -147,7 +147,7 @@ export default function LandingPage() {
 
       <main className="relative z-10">
         {/* Hero Section */}
-        <section className="min-h-screen flex items-center px-12 md:px-16 lg:px-24 xl:px-32 pt-22 sm:pt-0">
+        <section className="min-h-screen flex items-center px-12 md:px-16 lg:px-24 xl:px-32 pt-24 sm:pt-0">
           <div className="max-w-7xl mx-auto w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
               {/* Left Side - Text and Buttons */}
