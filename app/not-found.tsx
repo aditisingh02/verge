@@ -16,7 +16,7 @@ export default function NotFound() {
     >
       <div className="fixed inset-0 bg-gradient-to-br from-background/20 via-background/10 to-background/30 pointer-events-none" />
 
-      <div className="relative z-10 text-center px-6">
+      <div className="relative z-10 text-center px-6 pt-16 sm:pt-0">
         <div className="text-8xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
           404
         </div>
