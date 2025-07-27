@@ -195,44 +195,100 @@ export function simulateColorBlindness(
   }
 }
 
+// Define the input palette structure (can have complex color objects)
+interface InputColorPalette {
+  primary: string | { hex: string | (() => string) };
+  secondary: string | { hex: string | (() => string) };
+  accent: string | { hex: string | (() => string) };
+  background: {
+    light: string | { hex: string | (() => string) };
+    dark: string | { hex: string | (() => string) };
+  };
+  text: {
+    light: string | { hex: string | (() => string) };
+    dark: string | { hex: string | (() => string) };
+  };
+  surface: {
+    light: string | { hex: string | (() => string) };
+    dark: string | { hex: string | (() => string) };
+  };
+}
+
+// Define the output palette structure (always returns strings)
+interface SimulatedColorPalette {
+  primary: string;
+  secondary: string;
+  accent: string;
+  background: {
+    light: string;
+    dark: string;
+  };
+  text: {
+    light: string;
+    dark: string;
+  };
+  surface: {
+    light: string;
+    dark: string;
+  };
+}
+
 /**
  * Simulates an entire color palette for color blindness
  */
 export function simulatePaletteColorBlindness(
-  palette: any,
+  palette: InputColorPalette,
   type: ColorBlindnessType
-): any {
-  if (type === "normal") {
-    return palette;
-  }
-
+): SimulatedColorPalette {
   // Helper to get color string from Color object or string
-  const getColorHex = (color: any): string => {
+  const getColorHex = (
+    color: string | { hex: string | (() => string) }
+  ): string => {
     if (typeof color === "string") return color;
-    if (color && typeof color === "object" && color.hex) return color.hex;
-    if (color && typeof color.hex === "function") return color.hex();
+    if (color && typeof color === "object" && color.hex) {
+      return typeof color.hex === "function" ? color.hex() : color.hex;
+    }
     return String(color);
   };
 
-  return {
-    ...palette,
-    primary: simulateColorBlindness(getColorHex(palette.primary), type),
-    secondary: simulateColorBlindness(getColorHex(palette.secondary), type),
-    accent: simulateColorBlindness(getColorHex(palette.accent), type),
+  // Always convert to strings first, then apply simulation
+  const stringPalette = {
+    primary: getColorHex(palette.primary),
+    secondary: getColorHex(palette.secondary),
+    accent: getColorHex(palette.accent),
     background: {
-      light: simulateColorBlindness(
-        getColorHex(palette.background.light),
-        type
-      ),
-      dark: simulateColorBlindness(getColorHex(palette.background.dark), type),
+      light: getColorHex(palette.background.light),
+      dark: getColorHex(palette.background.dark),
     },
     text: {
-      light: simulateColorBlindness(getColorHex(palette.text.light), type),
-      dark: simulateColorBlindness(getColorHex(palette.text.dark), type),
+      light: getColorHex(palette.text.light),
+      dark: getColorHex(palette.text.dark),
     },
     surface: {
-      light: simulateColorBlindness(getColorHex(palette.surface.light), type),
-      dark: simulateColorBlindness(getColorHex(palette.surface.dark), type),
+      light: getColorHex(palette.surface.light),
+      dark: getColorHex(palette.surface.dark),
+    },
+  };
+
+  if (type === "normal") {
+    return stringPalette;
+  }
+
+  return {
+    primary: simulateColorBlindness(stringPalette.primary, type),
+    secondary: simulateColorBlindness(stringPalette.secondary, type),
+    accent: simulateColorBlindness(stringPalette.accent, type),
+    background: {
+      light: simulateColorBlindness(stringPalette.background.light, type),
+      dark: simulateColorBlindness(stringPalette.background.dark, type),
+    },
+    text: {
+      light: simulateColorBlindness(stringPalette.text.light, type),
+      dark: simulateColorBlindness(stringPalette.text.dark, type),
+    },
+    surface: {
+      light: simulateColorBlindness(stringPalette.surface.light, type),
+      dark: simulateColorBlindness(stringPalette.surface.dark, type),
     },
   };
 }
@@ -258,9 +314,13 @@ export function getColorBlindnessName(type: ColorBlindnessType): string {
 /**
  * Helper function to convert color to string
  */
-function getColorString(color: any): string {
+function getColorString(
+  color: string | { hex: string | (() => string) }
+): string {
   if (typeof color === "string") return color;
-  if (color && typeof color.hex === "function") return color.hex();
+  if (color && typeof color === "object" && color.hex) {
+    return typeof color.hex === "function" ? color.hex() : color.hex;
+  }
   return String(color);
 }
 
@@ -268,8 +328,8 @@ function getColorString(color: any): string {
  * Check if two colors are distinguishable for a given color blindness type
  */
 export function areColorsDistinguishable(
-  color1: string | any,
-  color2: string | any,
+  color1: string | { hex: string | (() => string) },
+  color2: string | { hex: string | (() => string) },
   type: ColorBlindnessType,
   threshold: number = 10
 ): boolean {

@@ -2,96 +2,28 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Palette,
-  Sparkles,
-  Shield,
-  Eye,
-  Download,
-  Zap,
-  Layers,
-  Code,
   ArrowRight,
-  Star,
   CheckCircle,
-  Paintbrush,
-  Monitor,
-  Smartphone,
-  Tablet,
   ExternalLink,
+  Menu,
+  Paintbrush,
+  Sparkles,
+  Star,
+  X,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function LandingPage() {
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
-
-  const features = [
-    {
-      icon: Palette,
-      title: "Smart Color Generation",
-      description:
-        "Generate harmonious color palettes using color theory principles - complementary, analogous, triadic, and split-complementary schemes.",
-    },
-    {
-      icon: Shield,
-      title: "Accessibility First",
-      description:
-        "Real-time WCAG compliance checking with AA/AAA contrast ratio validation to ensure your colors are accessible to everyone.",
-    },
-    {
-      icon: Eye,
-      title: "Color Vision Support",
-      description:
-        "Test your palettes for different types of color blindness to create inclusive designs that work for all users.",
-    },
-    {
-      icon: Download,
-      title: "Multiple Export Formats",
-      description:
-        "Export to CSS variables, Tailwind config, JSON, and Figma tokens. Ready-to-use code for any project.",
-    },
-    {
-      icon: Zap,
-      title: "Real-time Preview",
-      description:
-        "See your colors applied to actual UI components instantly. Toggle between light and dark themes.",
-    },
-    {
-      icon: Layers,
-      title: "Curated Presets",
-      description:
-        "Choose from Material Design, iOS, Tailwind CSS, and custom theme collections to jumpstart your design.",
-    },
-  ];
-
-  const exportFormats = [
-    {
-      name: "CSS Variables",
-      icon: Code,
-      description: "Custom properties ready for any CSS framework",
-    },
-    {
-      name: "Tailwind Config",
-      icon: Code,
-      description: "Drop-in configuration for Tailwind CSS",
-    },
-    {
-      name: "JSON",
-      icon: Code,
-      description: "Structured data for programmatic use",
-    },
-    {
-      name: "Figma Tokens",
-      icon: Code,
-      description: "Design tokens for Figma plugins",
-    },
-  ];
 
   return (
     <div
@@ -108,9 +40,9 @@ export default function LandingPage() {
       <div className="fixed inset-0 bg-gradient-to-br from-background/20 via-background/10 to-background/30 pointer-events-none" />
 
       {/* Floating Navbar */}
-      <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50">
+      <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-sm md:max-w-none md:w-auto px-4 md:px-0">
         <div className="bg-background/90 backdrop-blur-md border border-muted-foreground/20 rounded-full px-6 py-3 shadow-lg">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center justify-between md:justify-center md:gap-8">
             {/* Logo */}
             <div className="flex items-center gap-2">
               <span className="text-xl font-[family-name:var(--font-staatliches)]">
@@ -118,19 +50,14 @@ export default function LandingPage() {
               </span>
             </div>
 
-            {/* Navigation Links */}
-            <div className="flex items-center gap-6">
-              <button
-                onClick={() =>
-                  document
-                    .getElementById("hero")
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
+            {/* Desktop Navigation Links */}
+            <div className="hidden md:flex items-center gap-6">
+              <Link
+                href="/"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 Home
-              </button>
-
+              </Link>
               <button
                 onClick={() =>
                   document
@@ -142,29 +69,85 @@ export default function LandingPage() {
                 Features
               </button>
 
-              <a
+              <Link
                 href="/blog"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 Blog
-              </a>
+              </Link>
             </div>
 
-            {/* CTA Button */}
+            {/* Desktop CTA Button */}
             <Button
               size="sm"
-              className="rounded-full px-4 py-2 text-sm"
+              className="hidden md:flex rounded-full px-4 py-2 text-sm"
               asChild
             >
               <Link href="/app">Generate Now</Link>
             </Button>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden mt-2 bg-background/95 backdrop-blur-md border border-muted-foreground/20 rounded-2xl p-4 shadow-lg">
+            <div className="flex flex-col space-y-4">
+              <Link
+                href="/"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <button
+                onClick={() => {
+                  document
+                    .getElementById("features")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                  setIsMobileMenuOpen(false);
+                }}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors py-2 text-left"
+              >
+                Features
+              </button>
+              <Link
+                href="/blog"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Blog
+              </Link>
+              <div className="pt-2 border-t border-muted-foreground/20">
+                <Button
+                  size="sm"
+                  className="w-full rounded-full px-4 py-2 text-sm"
+                  asChild
+                >
+                  <Link href="/app" onClick={() => setIsMobileMenuOpen(false)}>
+                    Generate Now
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
       <main className="relative z-10">
         {/* Hero Section */}
-        <section className="min-h-screen flex items-center px-8 md:px-12 lg:px-16">
+        <section className="min-h-screen flex items-center px-12 md:px-16 lg:px-24 xl:px-32">
           <div className="max-w-7xl mx-auto w-full">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
               {/* Left Side - Text and Buttons */}
@@ -208,14 +191,14 @@ export default function LandingPage() {
                     className="gap-2 px-6 py-3"
                     asChild
                   >
-                    <a
+                    <Link
                       href="https://github.com/aditisingh02/verge"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       <ExternalLink className="h-4 w-4" />
                       View on GitHub
-                    </a>
+                    </Link>
                   </Button>
                 </div>
 
@@ -256,9 +239,11 @@ export default function LandingPage() {
                     : "opacity-0 translate-x-8"
                 }`}
               >
-                <img
+                <Image
                   src="/verge.gif"
                   alt="Verge"
+                  width={384}
+                  height={384}
                   className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-3xl object-contain"
                   style={{ aspectRatio: "1/1" }}
                 />
@@ -268,7 +253,10 @@ export default function LandingPage() {
         </section>
 
         {/* Features Section */}
-        <section className="py-20 px-8 md:px-12 lg:px-16">
+        <section
+          id="features"
+          className="py-20 px-12 md:px-16 lg:px-24 xl:px-32"
+        >
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <Badge variant="secondary" className="mb-4">
@@ -336,9 +324,11 @@ export default function LandingPage() {
               {/* Right Side - Verge in Action with Screenshot (spans 2x2) */}
               <div className="lg:col-span-2 lg:row-span-2 border-l-2 border-dashed border-muted-foreground/30 p-6 bg-background/50 backdrop-blur-sm hover:bg-background/60 transition-all duration-300">
                 <div className="h-full flex flex-col">
-                  <img
+                  <Image
                     src="/verge-screen.png"
                     alt="Verge Application Screenshot"
+                    width={400}
+                    height={240}
                     className="w-auto h-60 object-contain rounded border border-muted-foreground/20 bg-background p-2"
                   />
                 </div>
@@ -383,7 +373,7 @@ export default function LandingPage() {
         </section>
 
         {/* Accessibility Section */}
-        <section className="py-20 px-6 bg-muted/20">
+        <section className="py-20 px-12 md:px-16 lg:px-24 xl:px-32 bg-muted/20">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <div>
@@ -446,7 +436,7 @@ export default function LandingPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 px-6">
+        <section className="py-20 px-12 md:px-16 lg:px-24 xl:px-32">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-6">
               Ready to create amazing palettes?
@@ -470,14 +460,14 @@ export default function LandingPage() {
                 className="gap-2 text-lg px-8 py-6"
                 asChild
               >
-                <a
+                <Link
                   href="https://github.com/aditisingh02/verge"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <ExternalLink className="h-5 w-5" />
                   Star on GitHub
-                </a>
+                </Link>
               </Button>
             </div>
           </div>
@@ -489,9 +479,11 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center gap-3 mb-4 md:mb-0">
-              <img
+              <Image
                 src="/verge.gif"
                 alt="Verge"
+                width={32}
+                height={32}
                 className="w-8 h-8 rounded-lg object-cover"
                 style={{ aspectRatio: "1/1" }}
               />
@@ -506,14 +498,14 @@ export default function LandingPage() {
             </div>
 
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
-              <a
+              <Link
                 href="https://github.com/aditisingh02/verge"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-foreground transition-colors"
               >
                 GitHub
-              </a>
+              </Link>
               <span>•</span>
               <span>Built with ❤️ by Aditi Singh</span>
               <span>•</span>

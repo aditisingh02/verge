@@ -23,10 +23,13 @@ import {
 import { Eye, EyeOff, AlertTriangle, CheckCircle, Info } from "lucide-react";
 
 // Helper function to convert color to string
-const getColorString = (color: any): string => {
+const getColorString = (
+  color: string | { hex: string | (() => string) }
+): string => {
   if (typeof color === "string") return color;
-  if (color && typeof color === "object" && color.hex) return color.hex;
-  if (color && typeof color.hex === "function") return color.hex();
+  if (color && typeof color === "object" && color.hex) {
+    return typeof color.hex === "function" ? color.hex() : color.hex;
+  }
   return String(color);
 };
 

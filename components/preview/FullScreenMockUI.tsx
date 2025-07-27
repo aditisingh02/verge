@@ -12,7 +12,6 @@ import {
   Heart,
   Star,
   ShoppingCart,
-  Menu,
   Settings,
   Home,
   Folder,

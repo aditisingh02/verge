@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { useColorPalette } from "@/hooks/useColorPalette";
 import { PaletteGenerator } from "@/components/palette/PaletteGenerator";
 import { PaletteDisplay } from "@/components/palette/PaletteDisplay";
@@ -14,15 +13,7 @@ import { ExportPanel } from "@/components/export/ExportPanel";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Save,
-  Palette,
-  Sparkles,
-  Download,
-  Shield,
-  Eye,
-  ArrowLeft,
-} from "lucide-react";
+import { Palette, Sparkles, Shield, Eye } from "lucide-react";
 import Link from "next/link";
 
 export default function App() {
