@@ -158,11 +158,6 @@ export default function LandingPage() {
                     : "opacity-0 -translate-x-8"
                 }`}
               >
-                <Badge variant="secondary" className="mb-4 px-3 py-1 text-xs">
-                  <Star className="h-3 w-3 mr-1" />
-                  Open Source Color Palette Generator
-                </Badge>
-
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
                   Your Palette,
                   <br />
