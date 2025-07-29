@@ -121,3 +121,48 @@
     font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   }
 }
+/* Animated Verge Logo Button */
+.verge-button {
+  margin: 0;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  --border-right: 2px;
+  --text-stroke-color: rgba(255, 255, 255, 0.6);
+  --animation-color: white;
+  --fs-size: 1.5rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: var(--font-staatliches), Arial, sans-serif;
+  position: relative;
+  text-transform: uppercase;
+  color: white;
+  -webkit-text-stroke: 0.5px var(--text-stroke-color);
+}
+
+.verge-button .actual-text {
+  position: relative;
+  z-index: 1;
+  color: white;
+}
+
+.verge-button .hover-text {
+  position: absolute;
+  box-sizing: border-box;
+  color: white;
+  width: 0%;
+  inset: 0;
+  border-right: var(--border-right) solid var(--animation-color);
+  overflow: hidden;
+  transition: width 0.5s ease;
+  -webkit-text-stroke: 0.5px var(--animation-color);
+  z-index: 2;
+}
+
+.verge-button:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 10px var(--animation-color));
+}
