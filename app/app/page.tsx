@@ -64,9 +64,16 @@ export default function App() {
               <div className="flex items-center gap-3">
                 <div>
                   <Link href="/">
-                    <h1 className="text-4xl tracking-tight font-[family-name:var(--font-staatliches)]">
-                      Verge
-                    </h1>
+                    <button
+                      className="verge-button text-4xl tracking-tight"
+                      data-text="Verge"
+                      onClick={() => (window.location.href = "/")}
+                    >
+                      <span className="actual-text">&nbsp;Verge&nbsp;</span>
+                      <span aria-hidden="true" className="hover-text">
+                        &nbsp;Verge&nbsp;
+                      </span>
+                    </button>
                   </Link>
                 </div>
               </div>

@@ -1,0 +1,71 @@
+import { BlogLayout } from "@/components/blog/BlogLayout";
+
+export const metadata = {
+  title: "Understanding Color Theory: A Designer's Guide",
+  description:
+    "Learn the fundamentals of color theory and how to apply them in your design projects for maximum impact.",
+  date: "2024-01-15",
+  readTime: "5 min read",
+  tags: ["Design", "Color Theory", "Basics"],
+  author: "Verge Team",
+};
+
+<BlogLayout metadata={metadata}>
+
+# Understanding Color Theory: A Designer's Guide
+
+Color theory is the foundation of effective design. Whether you're creating a website, designing a logo, or building a complete brand identity, understanding how colors work together is crucial for creating visually appealing and emotionally resonant designs.
+
+## The Color Wheel
+
+The color wheel is your best friend when it comes to understanding color relationships. It consists of:
+
+- **Primary colors**: Red, blue, and yellow
+- **Secondary colors**: Green, orange, and purple (created by mixing primary colors)
+- **Tertiary colors**: Colors created by mixing primary and secondary colors
+
+## Color Harmonies
+
+### Complementary Colors
+
+Colors that sit opposite each other on the color wheel create high contrast and vibrant looks. Think red and green, or blue and orange.
+
+```css
+/* Example: Complementary color scheme */
+:root {
+  --primary: #ff6b35; /* Orange */
+  --secondary: #004e89; /* Blue */
+}
+```
+
+### Analogous Colors
+
+Colors that are next to each other on the color wheel create serene and comfortable designs. They're pleasing to the eye and create a sense of harmony.
+
+### Triadic Colors
+
+Three colors evenly spaced on the color wheel offer strong visual contrast while retaining harmony and color richness.
+
+## Practical Applications
+
+When building color palettes for digital products:
+
+1. **Start with one dominant color** - This will be your primary brand color
+2. **Choose supporting colors** - Use color theory to select complementary or analogous colors
+3. **Consider accessibility** - Ensure sufficient contrast ratios for text readability
+4. **Test in context** - Colors look different on various backgrounds and devices
+
+## Tools for Color Theory
+
+- **Verge**: Our own color palette generator that applies color theory principles
+- **Adobe Color**: Web-based color wheel tool
+- **Coolors**: Quick palette generation
+- **Contrast checkers**: For accessibility validation
+
+## Conclusion
+
+Mastering color theory takes practice, but understanding these fundamentals will dramatically improve your design work. Remember that rules are meant to be broken creatively, but you need to understand them first.
+
+Start experimenting with different color harmonies in your next project, and don't forget to test for accessibility!
+
+</BlogLayout>

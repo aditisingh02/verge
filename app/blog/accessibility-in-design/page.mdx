@@ -1,0 +1,147 @@
+import { BlogLayout } from "@/components/blog/BlogLayout";
+
+export const metadata = {
+  title: "Creating Accessible Color Palettes",
+  description:
+    "Discover how to design color schemes that work for everyone, including users with color vision deficiencies.",
+  date: "2024-01-10",
+  readTime: "7 min read",
+  tags: ["Accessibility", "WCAG", "Inclusive Design"],
+  author: "Verge Team",
+};
+
+<BlogLayout metadata={metadata}>
+
+# Creating Accessible Color Palettes
+
+Accessibility in design isn't just a nice-to-have feature—it's essential for creating inclusive digital experiences. When it comes to color, making accessible choices ensures that your content is usable by everyone, including the approximately 8% of men and 0.5% of women who have some form of color vision deficiency.
+
+## Understanding Color Vision Deficiencies
+
+Color vision deficiencies, commonly called color blindness, affect how people perceive colors. The most common types are:
+
+### Protanopia and Protanomaly
+
+Difficulty distinguishing between red and green colors, with reduced sensitivity to red light.
+
+### Deuteranopia and Deuteranomaly
+
+The most common form, affecting the ability to distinguish between red and green colors, with reduced sensitivity to green light.
+
+### Tritanopia and Tritanomaly
+
+Less common, affecting the ability to distinguish between blue and yellow colors.
+
+## WCAG Guidelines for Color
+
+The Web Content Accessibility Guidelines (WCAG) provide specific standards for color accessibility:
+
+### Contrast Ratios
+
+- **AA Standard**: Minimum contrast ratio of 4.5:1 for normal text
+- **AAA Standard**: Enhanced contrast ratio of 7:1 for normal text
+- **Large Text**: 3:1 for AA, 4.5:1 for AAA (18pt+ or 14pt+ bold)
+
+```css
+/* Good contrast examples */
+.good-contrast {
+  background: #ffffff;
+  color: #333333; /* Contrast ratio: 12.6:1 */
+}
+
+.also-good {
+  background: #0066cc;
+  color: #ffffff; /* Contrast ratio: 5.7:1 */
+}
+```
+
+### Don't Rely on Color Alone
+
+Never use color as the only way to convey information. Always provide additional indicators like:
+
+- Icons or symbols
+- Text labels
+- Patterns or textures
+- Underlines for links
+
+## Practical Tips for Accessible Color Palettes
+
+### 1. Test Your Colors
+
+Use tools like:
+
+- **Verge's built-in accessibility checker**
+- WebAIM's Contrast Checker
+- Colour Contrast Analyser
+- Browser developer tools
+
+### 2. Choose Colors Wisely
+
+- Avoid problematic combinations like red/green for critical information
+- Use high contrast between text and background
+- Consider how colors appear in different lighting conditions
+
+### 3. Provide Alternatives
+
+- Include pattern fills in charts and graphs
+- Use icons alongside color-coded information
+- Offer high contrast mode options
+
+## Testing Your Designs
+
+### Simulation Tools
+
+Test how your colors appear to users with different types of color vision:
+
+- Use Verge's color blindness simulation feature
+- Try browser extensions like "Colorblinding"
+- Test with actual users who have color vision deficiencies
+
+### Automated Testing
+
+Integrate accessibility testing into your workflow:
+
+- Use axe-core for automated testing
+- Include contrast checking in your design system
+- Set up CI/CD pipelines that check for accessibility issues
+
+## Building an Accessible Color System
+
+### Step 1: Define Your Base Colors
+
+Start with colors that have sufficient contrast and work well together across different types of color vision.
+
+### Step 2: Create Semantic Color Tokens
+
+Define colors by their purpose, not their appearance:
+
+```css
+:root {
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+}
+```
+
+### Step 3: Test and Iterate
+
+Continuously test your color choices with real users and accessibility tools.
+
+## Common Mistakes to Avoid
+
+1. **Using color alone to indicate form errors**
+2. **Insufficient contrast in interactive elements**
+3. **Assuming color meanings are universal**
+4. **Not testing with actual users**
+5. **Ignoring focus indicators**
+
+## Conclusion
+
+Creating accessible color palettes requires intentional design choices and continuous testing. By following WCAG guidelines, understanding color vision deficiencies, and using the right tools, you can create beautiful designs that work for everyone.
+
+Remember: accessibility benefits everyone, not just users with disabilities. High contrast designs are easier to read in bright sunlight, and clear visual hierarchies help all users navigate your content more effectively.
+
+Start building more accessible color palettes today with Verge's accessibility features!
+
+</BlogLayout>

@@ -475,7 +475,7 @@ export default function LandingPage() {
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center gap-3 mb-4 md:mb-0">
               <Image
-                src="/verge.gif"
+                src="/cube.gif"
                 alt="Verge"
                 width={32}
                 height={32}
