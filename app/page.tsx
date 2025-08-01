@@ -470,17 +470,17 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t bg-background/80 backdrop-blur-sm py-12 px-6">
+      <footer className="relative z-10 border-t bg-background/80 backdrop-blur-sm py-8 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center gap-3 mb-4 md:mb-0">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
               <Image
                 src="/cube.gif"
                 alt="Verge"
-                width={32}
-                height={32}
-                className="w-8 h-8 rounded-lg object-cover"
-                style={{ aspectRatio: "1/1" }}
+                width={24}
+                height={24}
+                unoptimized
+                className="w-6 h-6 rounded-lg object-cover"
               />
               <div>
                 <h3 className="font-bold font-[family-name:var(--font-staatliches)]">
@@ -492,7 +492,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="flex items-center gap-6 text-sm text-muted-foreground">
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <Link
                 href="https://github.com/aditisingh02/verge"
                 target="_blank"
@@ -502,9 +502,14 @@ export default function LandingPage() {
                 GitHub
               </Link>
               <span>•</span>
-              <span>Built with ❤️ by Aditi Singh</span>
+              <Link
+                href="/blog"
+                className="hover:text-foreground transition-colors"
+              >
+                Blog
+              </Link>
               <span>•</span>
-              <span>MIT License</span>
+              <span>© 2024 Aditi Singh</span>
             </div>
           </div>
         </div>
