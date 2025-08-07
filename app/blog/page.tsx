@@ -1,9 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import Image from "next/image";
-import { getBlogPosts, BlogPost } from "@/lib/blog";
+import { getBlogPosts } from "@/lib/blog";
 import BlogPageClient from "./BlogPageClient";
 
 export default async function BlogPage() {
@@ -21,7 +18,7 @@ export default async function BlogPage() {
       }}
     >
       {/* Overlay for better readability */}
-      <div className="fixed inset-0 bg-gradient-to-br from-background/80 via-background/70 to-background/80 pointer-events-none" />
+      <div className="fixed inset-0 pointer-events-none" />
 
       {/* Floating Navbar */}
       <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-sm md:max-w-none md:w-auto px-4 md:px-0">

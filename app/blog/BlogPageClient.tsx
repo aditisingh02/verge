@@ -24,41 +24,25 @@ export default function BlogPageClient({ blogPosts }: BlogPageClientProps) {
     "WCAG",
   ];
 
-  // Get featured post (most recent)
-  const featuredPost = blogPosts[0];
-
-  // Get sidebar posts (next 3 most recent, or repeat if not enough)
-  const sidebarPosts =
-    blogPosts.length > 1
-      ? blogPosts.slice(1, 4)
-      : Array(3).fill(blogPosts[0]).filter(Boolean);
-
-  // Get remaining posts for grid (or repeat existing ones)
-  const gridPosts =
-    blogPosts.length > 1
-      ? [...blogPosts.slice(1), ...blogPosts].slice(0, 3)
-      : Array(3).fill(blogPosts[0]).filter(Boolean);
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       day: "numeric",
-      month: "short",
+      month: "long",
       year: "numeric",
     });
   };
 
-  const truncateTitle = (title: string, maxLength: number = 60) => {
-    return title.length > maxLength
-      ? title.substring(0, maxLength) + "..."
-      : title;
+  const getImageForPost = (slug: string) => {
+    const imageMap: Record<string, string> = {
+      "accessibility-in-design": "/cube.gif",
+      "color-theory-basics": "/verge-screen.png",
+      default: "/verge.gif",
+    };
+    return imageMap[slug] || imageMap.default;
   };
 
-  const getMainCategory = (tags: string[]) => {
-    return tags[0]?.toUpperCase() || "BLOG";
-  };
-
-  if (!featuredPost) {
+  if (!blogPosts.length) {
     return (
       <div className="relative z-10 pt-24 pb-16 px-6">
         <div className="max-w-7xl mx-auto text-center">
@@ -73,156 +57,140 @@ export default function BlogPageClient({ blogPosts }: BlogPageClientProps) {
 
   return (
     <>
-      {/* Hero News Section */}
+      {/* Hero Section */}
       <section className="relative z-10 pt-24 pb-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Featured News Card */}
-            <div>
-              <Card className="group overflow-hidden bg-background/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="aspect-[16/9] overflow-hidden">
-                  <Image
-                    src={
-                      featuredPost.image ||
-                      "https://source.unsplash.com/800x450/design"
-                    }
-                    alt={featuredPost.title}
-                    width={800}
-                    height={450}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <Badge
-                    variant="secondary"
-                    className="mb-4 text-xs font-medium tracking-wide"
-                  >
-                    {getMainCategory(featuredPost.tags)}
-                  </Badge>
-                  <Link href={`/blog/${featuredPost.slug}`}>
-                    <h1 className="text-3xl font-bold leading-tight mb-6 group-hover:text-primary transition-colors cursor-pointer">
-                      {featuredPost.title}
-                    </h1>
-                  </Link>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span className="font-medium">{featuredPost.author}</span>
-                    <span>•</span>
-                    <span>{formatDate(featuredPost.date)}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
+            Blog
+          </h1>
+          <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+            The latest news, tips, and insights about color theory, design
+            systems, and accessibility.
+          </p>
+        </div>
+      </section>
 
-            {/* Smaller Horizontal Cards */}
-            <div className="space-y-6">
-              {sidebarPosts.map((post, index) => (
-                <Card
-                  key={`${post.slug}-${index}`}
-                  className="group overflow-hidden bg-background/80 backdrop-blur-sm border-0 shadow-md hover:shadow-lg transition-all duration-300"
-                >
-                  <div className="flex gap-4 p-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-20 h-20 rounded-lg overflow-hidden">
+      {/* Main Content */}
+      <section className="relative z-10 pb-24 px-6">
+        <div className="max-w-4xl mx-auto">
+          {/* Blog Posts List */}
+          <div className="space-y-16">
+            {blogPosts.map((post, index) => (
+              <article key={post.slug} className="group">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
+                  {/* Date Column */}
+                  <div className="md:text-right">
+                    <time className="text-sm text-muted-foreground font-medium">
+                      {formatDate(post.date)}
+                    </time>
+                  </div>
+
+                  {/* Content Column */}
+                  <div className="md:col-span-2 space-y-3">
+                    <Link href={`/blog/${post.slug}`} className="group">
+                      <h2 className="text-2xl font-bold leading-tight group-hover:text-primary transition-colors">
+                        {post.title}
+                      </h2>
+                    </Link>
+
+                    {/* Tags below title - smaller */}
+                    <div className="flex flex-wrap gap-1.5">
+                      {post.tags.map((tag: string) => (
+                        <Badge
+                          key={tag}
+                          variant="secondary"
+                          className="text-xs font-medium bg-muted/50 hover:bg-muted transition-colors px-2 py-0.5"
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+
+                    <p className="text-muted-foreground leading-relaxed">
+                      {post.description}
+                    </p>
+
+                    <div className="flex items-center justify-between pt-2">
+                      <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                        <span className="font-medium">{post.author}</span>
+                        <span>•</span>
+                        <span>{post.readTime}</span>
+                      </div>
+
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                      >
+                        Read more →
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Image Column */}
+                  <div className="md:col-span-1">
+                    <Link href={`/blog/${post.slug}`} className="block group">
+                      <div className="aspect-[4/3] overflow-hidden rounded-lg bg-muted">
                         <Image
-                          src={
-                            post.image ||
-                            "https://source.unsplash.com/80x80/design"
-                          }
+                          src={getImageForPost(post.slug)}
                           alt={post.title}
-                          width={80}
-                          height={80}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          width={200}
+                          height={150}
+                          unoptimized={post.slug === "accessibility-in-design"}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <Badge variant="outline" className="mb-2 text-xs">
-                        {getMainCategory(post.tags)}
-                      </Badge>
-                      <Link href={`/blog/${post.slug}`}>
-                        <h3 className="font-semibold text-sm mb-2 line-clamp-2 group-hover:text-primary transition-colors cursor-pointer">
-                          {truncateTitle(post.title)}
-                        </h3>
-                      </Link>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <span>{post.author}</span>
-                        <span>•</span>
-                        <span>{formatDate(post.date)}</span>
-                      </div>
-                    </div>
+                    </Link>
                   </div>
-                </Card>
-              ))}
-            </div>
+                </div>
+
+                {/* Divider */}
+                {index < blogPosts.length - 1 && (
+                  <div className="mt-16 border-b border-muted-foreground/10" />
+                )}
+              </article>
+            ))}
+          </div>
+
+          {/* Load More / Pagination */}
+          <div className="mt-20 text-center">
+            <p className="text-muted-foreground mb-6">
+              That's all for now. More articles coming soon!
+            </p>
+            <Button variant="outline" size="lg" asChild>
+              <Link href="/">← Back to Home</Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Secondary News Section */}
-      <section className="relative z-10 py-16 px-6 bg-background/40 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto">
-          {/* Section Headline */}
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-8">Latest Design Insights</h2>
+      {/* Newsletter Section */}
+      <section className="relative z-10 py-24 px-6 bg-muted/20">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4">Stay up to date</h2>
+          <p className="text-muted-foreground mb-8 leading-relaxed">
+            Get notified when we publish something new, and unsubscribe at any
+            time.
+          </p>
 
-            {/* Category Filters */}
-            <div className="flex flex-wrap justify-center gap-3">
-              {categories.map((category, index) => (
-                <Button
-                  key={index}
-                  variant={activeCategory === category ? "default" : "outline"}
-                  onClick={() => setActiveCategory(category)}
-                  className={`rounded-full px-6 py-2 text-sm transition-all duration-200 ${
-                    activeCategory === category
-                      ? "bg-foreground text-background hover:bg-foreground/90"
-                      : "hover:bg-muted"
-                  }`}
-                >
-                  {category}
-                </Button>
-              ))}
-            </div>
-          </div>
+          <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-3 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              required
+            />
+            <Button type="submit" className="px-6">
+              Subscribe
+            </Button>
+          </form>
 
-          {/* Grid Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {gridPosts.map((post, index) => (
-              <Card
-                key={`${post.slug}-grid-${index}`}
-                className="group overflow-hidden bg-background/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <div className="aspect-[4/3] overflow-hidden">
-                  <Image
-                    src={
-                      post.image || "https://source.unsplash.com/600x400/design"
-                    }
-                    alt={post.title}
-                    width={600}
-                    height={400}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <Badge
-                    variant="secondary"
-                    className="mb-3 text-xs font-medium tracking-wide"
-                  >
-                    {getMainCategory(post.tags)}
-                  </Badge>
-                  <Link href={`/blog/${post.slug}`}>
-                    <h3 className="text-xl font-bold mb-4 line-clamp-2 group-hover:text-primary transition-colors cursor-pointer">
-                      {post.title}
-                    </h3>
-                  </Link>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span className="font-medium">{post.author}</span>
-                    <span>•</span>
-                    <span>{formatDate(post.date)}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <p className="text-xs text-muted-foreground mt-4">
+            We care about your data. Read our{" "}
+            <Link href="#" className="underline hover:no-underline">
+              privacy policy
+            </Link>
+            .
+          </p>
         </div>
       </section>
     </>
