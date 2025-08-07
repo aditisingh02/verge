@@ -153,9 +153,6 @@ export default function BlogPageClient({ blogPosts }: BlogPageClientProps) {
 
           {/* Load More / Pagination */}
           <div className="mt-20 text-center">
-            <p className="text-muted-foreground mb-6">
-              That's all for now. More articles coming soon!
-            </p>
             <Button variant="outline" size="lg" asChild>
               <Link href="/">← Back to Home</Link>
             </Button>
@@ -164,7 +161,7 @@ export default function BlogPageClient({ blogPosts }: BlogPageClientProps) {
       </section>
 
       {/* Newsletter Section */}
-      <section className="relative z-10 py-24 px-6 bg-muted/20">
+      <section className="relative z-10 py-24 px-6 bg-black/20">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Stay up to date</h2>
           <p className="text-muted-foreground mb-8 leading-relaxed">
