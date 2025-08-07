@@ -3,9 +3,9 @@ import { getBlogPosts } from "@/lib/blog";
 import BlogPostClient from "./BlogPostClient";
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -16,8 +16,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
+  const { slug } = await params;
   const posts = await getBlogPosts();
-  const post = posts.find((p) => p.slug === params.slug);
+  const post = posts.find((p) => p.slug === slug);
 
   if (!post) {
     return {
@@ -32,15 +33,16 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { slug } = await params;
   const posts = await getBlogPosts();
-  const post = posts.find((p) => p.slug === params.slug);
+  const post = posts.find((p) => p.slug === slug);
 
   if (!post) {
     notFound();
   }
 
   // Get related posts (other posts, excluding current)
-  const relatedPosts = posts.filter((p) => p.slug !== params.slug).slice(0, 3);
+  const relatedPosts = posts.filter((p) => p.slug !== slug).slice(0, 3);
 
   return <BlogPostClient post={post} relatedPosts={relatedPosts} />;
 }

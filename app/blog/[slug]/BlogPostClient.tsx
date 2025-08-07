@@ -124,14 +124,17 @@ export default function BlogPostClient({
         {/* Article Header */}
         <article className="max-w-4xl mx-auto px-6">
           <header className="mb-12">
-            {/* Category Badge */}
-            <div className="mb-6">
-              <Badge
-                variant="secondary"
-                className="text-sm font-medium tracking-wide"
-              >
-                {getMainCategory(post.tags)}
-              </Badge>
+            {/* All Category Badges */}
+            <div className="mb-6 flex flex-wrap gap-3">
+              {post.tags.map((tag) => (
+                <Badge
+                  key={tag}
+                  variant="secondary"
+                  className="text-sm font-medium tracking-wide uppercase px-4 py-2"
+                >
+                  {tag}
+                </Badge>
+              ))}
             </div>
 
             {/* Title */}
@@ -158,15 +161,6 @@ export default function BlogPostClient({
                 <Clock className="h-4 w-4" />
                 <span>{post.readTime}</span>
               </div>
-            </div>
-
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2 mb-8">
-              {post.tags.map((tag) => (
-                <Badge key={tag} variant="outline" className="text-xs">
-                  {tag}
-                </Badge>
-              ))}
             </div>
 
             {/* Featured Image */}
@@ -259,12 +253,17 @@ export default function BlogPostClient({
                       />
                     </div>
                     <CardContent className="p-6">
-                      <Badge
-                        variant="secondary"
-                        className="mb-3 text-xs font-medium tracking-wide"
-                      >
-                        {getMainCategory(relatedPost.tags)}
-                      </Badge>
+                      <div className="mb-3 flex flex-wrap gap-2">
+                        {relatedPost.tags.slice(0, 2).map((tag) => (
+                          <Badge
+                            key={tag}
+                            variant="secondary"
+                            className="text-xs font-medium tracking-wide uppercase"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
                       <Link href={`/blog/${relatedPost.slug}`}>
                         <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors cursor-pointer">
                           {relatedPost.title}
