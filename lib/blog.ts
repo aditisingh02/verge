@@ -43,10 +43,15 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       }
     }
 
-    // Sort by date (newest first)
-    return blogPosts.sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
+    // Sort with Verge blog post first, then by date (newest first)
+    return blogPosts.sort((a, b) => {
+      // Always keep "verge" post at the top
+      if (a.slug === "verge") return -1;
+      if (b.slug === "verge") return 1;
+
+      // For all other posts, sort by date (newest first)
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
   } catch (error) {
     console.error("Error reading blog directory:", error);
     return [];
