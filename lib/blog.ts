@@ -10,6 +10,7 @@ export interface BlogPost {
   tags: string[];
   author: string;
   image?: string;
+  content?: string;
 }
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
@@ -82,6 +83,17 @@ function extractMetadata(
         .filter((tag) => tag.length > 0);
     }
 
+    // Extract the actual MDX content (everything after the closing </BlogLayout>)
+    const contentMatch = content.match(
+      /<BlogLayout metadata=\{metadata\}>([\s\S]*?)<\/BlogLayout>/
+    );
+    let mdxContent = "";
+    if (contentMatch) {
+      mdxContent = contentMatch[1].trim();
+      // Remove the first heading if it matches the title
+      mdxContent = mdxContent.replace(/^#\s+.*?\n\n?/, "");
+    }
+
     if (!titleMatch || !descriptionMatch || !dateMatch) return null;
 
     return {
@@ -91,6 +103,7 @@ function extractMetadata(
       readTime: readTimeMatch?.[1] || "5 min read",
       author: authorMatch?.[1] || "Verge Team",
       tags,
+      content: mdxContent,
     };
   } catch (error) {
     console.error("Error parsing metadata:", error);

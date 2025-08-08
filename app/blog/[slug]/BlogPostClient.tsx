@@ -12,7 +12,6 @@ import {
   BookOpen,
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { BlogPost } from "@/lib/blog";
 
 interface BlogPostClientProps {
@@ -33,8 +32,76 @@ export default function BlogPostClient({
     });
   };
 
-  const getMainCategory = (tags: string[]) => {
-    return tags[0]?.toUpperCase() || "BLOG";
+  const formatMarkdownContent = (content: string) => {
+    // Simple markdown to HTML conversion
+    let html = content;
+
+    // Convert headings
+    html = html.replace(
+      /^### (.+)$/gm,
+      '<h3 class="text-lg font-semibold mt-8 mb-4 text-foreground">$1</h3>'
+    );
+    html = html.replace(
+      /^## (.+)$/gm,
+      '<h2 class="text-xl font-semibold mt-10 mb-5 text-foreground">$1</h2>'
+    );
+    html = html.replace(
+      /^# (.+)$/gm,
+      '<h1 class="text-2xl font-bold mt-12 mb-6 text-foreground">$1</h1>'
+    );
+
+    // Convert bold and italic
+    html = html.replace(
+      /\*\*(.*?)\*\*/g,
+      '<strong class="font-semibold text-foreground">$1</strong>'
+    );
+    html = html.replace(/\*([^*\n]+)\*/g, '<em class="italic">$1</em>');
+
+    // Convert inline code
+    html = html.replace(
+      /`([^`\n]+)`/g,
+      '<code class="bg-muted px-2 py-1 rounded text-sm font-mono text-foreground border">$1</code>'
+    );
+
+    // Convert code blocks
+    html = html.replace(
+      /```[\w]*\n([\s\S]*?)```/g,
+      '<pre class="bg-muted p-4 rounded-lg overflow-x-auto my-6 border"><code class="text-sm font-mono text-foreground">$1</code></pre>'
+    );
+
+    // Convert links
+    html = html.replace(
+      /\[([^\]]+)\]\(([^)]+)\)/g,
+      '<a href="$2" class="text-primary hover:underline font-medium">$1</a>'
+    );
+
+    // Convert blockquotes
+    html = html.replace(
+      /^> (.+)$/gm,
+      '<blockquote class="border-l-4 border-primary pl-6 py-2 italic text-muted-foreground my-6 bg-muted/30 rounded-r">$1</blockquote>'
+    );
+
+    // Convert paragraphs (split by double newlines)
+    const sections = html.split(/\n\s*\n/);
+    html = sections
+      .map((section) => {
+        const trimmed = section.trim();
+        if (!trimmed) return "";
+
+        // Skip if already contains HTML tags
+        if (trimmed.includes("<")) {
+          return trimmed;
+        }
+
+        // Convert to paragraph
+        return `<p class="mb-6 text-muted-foreground leading-relaxed text-base">${trimmed.replace(
+          /\n/g,
+          "<br>"
+        )}</p>`;
+      })
+      .join("\n");
+
+    return html;
   };
 
   return (
@@ -49,7 +116,7 @@ export default function BlogPostClient({
       }}
     >
       {/* Overlay for better readability */}
-      <div className="fixed inset-0 bg-gradient-to-br from-background/90 via-background/80 to-background/90 pointer-events-none" />
+      <div className="fixed inset-0 bg-gradient-to-br from-background/10 via-background/15 to-background/70 pointer-events-none" />
 
       {/* Floating Navbar */}
       <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-sm md:max-w-none md:w-auto px-4 md:px-0">
@@ -112,7 +179,7 @@ export default function BlogPostClient({
       {/* Main Content */}
       <main className="relative z-10 pt-24 pb-16">
         {/* Back Button */}
-        <div className="max-w-4xl mx-auto px-6 mb-8">
+        <div className="max-w-3xl mx-auto px-6 mb-8">
           <Button variant="ghost" size="sm" asChild className="group">
             <Link href="/blog">
               <ArrowLeft className="h-4 w-4 mr-2 group-hover:-translate-x-1 transition-transform" />
@@ -122,101 +189,83 @@ export default function BlogPostClient({
         </div>
 
         {/* Article Header */}
-        <article className="max-w-4xl mx-auto px-6">
-          <header className="mb-12">
-            {/* All Category Badges */}
-            <div className="mb-6 flex flex-wrap gap-3">
+        <article className="max-w-3xl mx-auto px-6">
+          {/* <header className="mb-8">
+            <div className="mb-4 flex flex-wrap gap-2">
               {post.tags.map((tag) => (
                 <Badge
                   key={tag}
                   variant="secondary"
-                  className="text-sm font-medium tracking-wide uppercase px-4 py-2"
+                  className="text-xs font-normal tracking-wide uppercase px-2 py-1"
                 >
                   {tag}
                 </Badge>
               ))}
             </div>
 
-            {/* Title */}
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+            <h1 className="text-2xl md:text-3xl font-bold leading-tight mb-4">
               {post.title}
             </h1>
 
-            {/* Description */}
-            <p className="text-xl text-muted-foreground leading-relaxed mb-8 max-w-3xl">
+            <p className="text-base text-muted-foreground leading-relaxed mb-6">
               {post.description}
             </p>
 
-            {/* Meta Information */}
-            <div className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground mb-8">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-8 pb-8 border-b border-muted-foreground/20">
               <div className="flex items-center gap-2">
-                <User className="h-4 w-4" />
+                <User className="h-3 w-3" />
                 <span className="font-medium">{post.author}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
+                <Calendar className="h-3 w-3" />
                 <span>{formatDate(post.date)}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
+                <Clock className="h-3 w-3" />
                 <span>{post.readTime}</span>
               </div>
             </div>
-
-            {/* Featured Image */}
-            <div className="aspect-[16/9] overflow-hidden rounded-2xl mb-12 shadow-2xl">
-              <Image
-                src={
-                  post.image || "https://source.unsplash.com/1200x675/design"
-                }
-                alt={post.title}
-                width={1200}
-                height={675}
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Share Button */}
-            <div className="flex justify-center mb-12">
-              <Button variant="outline" size="sm" className="gap-2">
-                <Share2 className="h-4 w-4" />
-                Share Article
-              </Button>
-            </div>
-          </header>
+          </header> */}
 
           {/* Article Content */}
-          <div className="prose prose-lg max-w-none">
-            <Card className="bg-background/80 backdrop-blur-sm border-0 shadow-lg">
-              <CardContent className="p-12">
-                <div className="text-center py-16">
-                  <BookOpen className="h-16 w-16 mx-auto mb-6 text-muted-foreground" />
-                  <h3 className="text-2xl font-bold mb-4">Article Content</h3>
-                  <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                    This is where the full MDX content would be rendered. The
-                    actual blog post content from the MDX file would appear here
-                    with proper styling and formatting.
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    <strong>Post:</strong> {post.title}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+          <div className="prose prose-base max-w-none">
+            {post.content ? (
+              <div
+                className="article-content"
+                dangerouslySetInnerHTML={{
+                  __html: formatMarkdownContent(post.content),
+                }}
+              />
+            ) : (
+              <Card className="bg-background/80 backdrop-blur-sm border-0 shadow-md">
+                <CardContent className="p-6">
+                  <div className="text-center py-8">
+                    <BookOpen className="h-8 w-8 mx-auto mb-4 text-muted-foreground" />
+                    <h3 className="text-lg font-semibold mb-3">
+                      Content Not Available
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4 max-w-lg mx-auto">
+                      The content for this blog post could not be loaded. Please
+                      check back later.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           {/* Article Footer */}
-          <footer className="mt-16 pt-12 border-t border-muted-foreground/20">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <footer className="mt-12 pt-8 border-t border-muted-foreground/20">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="text-center md:text-left">
-                <h4 className="font-semibold mb-2">Written by {post.author}</h4>
+                <h4 className="font-medium mb-1">Written by {post.author}</h4>
                 <p className="text-sm text-muted-foreground">
                   Creating beautiful, accessible color palettes for designers
                   and developers.
                 </p>
               </div>
-              <Button variant="outline" className="gap-2">
-                <Share2 className="h-4 w-4" />
+              <Button variant="outline" size="sm" className="gap-2">
+                <Share2 className="h-3 w-3" />
                 Share this article
               </Button>
             </div>
@@ -225,51 +274,39 @@ export default function BlogPostClient({
 
         {/* Related Posts */}
         {relatedPosts.length > 0 && (
-          <section className="mt-24 px-6">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold mb-4">Related Articles</h2>
-                <p className="text-muted-foreground">
+          <section className="mt-16 px-6">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-8">
+                <h2 className="text-xl font-semibold mb-2">Related Articles</h2>
+                <p className="text-sm text-muted-foreground">
                   Continue exploring our design insights
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {relatedPosts.map((relatedPost) => (
                   <Card
                     key={relatedPost.slug}
-                    className="group overflow-hidden bg-background/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="group overflow-hidden bg-background/80 backdrop-blur-sm border-0 shadow-md hover:shadow-lg transition-all duration-300"
                   >
-                    <div className="aspect-[16/10] overflow-hidden">
-                      <Image
-                        src={
-                          relatedPost.image ||
-                          "https://source.unsplash.com/600x375/design"
-                        }
-                        alt={relatedPost.title}
-                        width={600}
-                        height={375}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                    <CardContent className="p-6">
-                      <div className="mb-3 flex flex-wrap gap-2">
+                    <CardContent className="p-4">
+                      <div className="mb-2 flex flex-wrap gap-1">
                         {relatedPost.tags.slice(0, 2).map((tag) => (
                           <Badge
                             key={tag}
                             variant="secondary"
-                            className="text-xs font-medium tracking-wide uppercase"
+                            className="text-xs font-normal tracking-wide uppercase px-1.5 py-0.5"
                           >
                             {tag}
                           </Badge>
                         ))}
                       </div>
                       <Link href={`/blog/${relatedPost.slug}`}>
-                        <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors cursor-pointer">
+                        <h3 className="text-sm font-semibold mb-2 line-clamp-2 group-hover:text-primary transition-colors cursor-pointer">
                           {relatedPost.title}
                         </h3>
                       </Link>
-                      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                      <p className="text-xs text-muted-foreground mb-3 line-clamp-2">
                         {relatedPost.description}
                       </p>
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -286,29 +323,6 @@ export default function BlogPostClient({
             </div>
           </section>
         )}
-
-        {/* Newsletter CTA */}
-        <section className="mt-24 px-6">
-          <div className="max-w-4xl mx-auto">
-            <Card className="bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20">
-              <CardContent className="p-12 text-center">
-                <h3 className="text-2xl font-bold mb-4">Stay Updated</h3>
-                <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-                  Get the latest articles about design, color theory, and
-                  accessibility delivered to your inbox.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="flex-1 px-4 py-3 rounded-lg border border-input bg-background"
-                  />
-                  <Button className="px-8">Subscribe</Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
       </main>
     </div>
   );
