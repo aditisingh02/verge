@@ -98,6 +98,23 @@ export default function BlogPostClient({
           return `<ul class="list-disc list-inside mb-6 space-y-2">\n${listItems}\n</ul>`;
         }
 
+        // Check if this section contains numbered lists
+        if (/^\d+\.\s/.test(trimmed) || /\n\d+\.\s/.test(trimmed)) {
+          // Convert numbered points to list items
+          const listItems = trimmed
+            .split("\n")
+            .map((line) => {
+              if (/^\d+\.\s/.test(line.trim())) {
+                const content = line.trim().replace(/^\d+\.\s/, "");
+                return `  <li class="mb-2 text-muted-foreground leading-relaxed">${content}</li>`;
+              }
+              return line;
+            })
+            .join("\n");
+
+          return `<ol class="list-decimal list-inside mb-6 space-y-2">\n${listItems}\n</ol>`;
+        }
+
         // Skip if already contains HTML tags
         if (trimmed.includes("<")) {
           return trimmed;
