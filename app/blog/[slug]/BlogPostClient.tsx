@@ -3,14 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  ArrowLeft,
-  Clock,
-  Calendar,
-  User,
-  Share2,
-  BookOpen,
-} from "lucide-react";
+import { ArrowLeft, Share2, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { BlogPost } from "@/lib/blog";
 
@@ -81,12 +74,29 @@ export default function BlogPostClient({
       '<blockquote class="border-l-4 border-primary pl-6 py-2 italic text-muted-foreground my-6 bg-muted/30 rounded-r">$1</blockquote>'
     );
 
-    // Convert paragraphs (split by double newlines)
+    // Convert paragraphs and handle bullet points (split by double newlines)
     const sections = html.split(/\n\s*\n/);
     html = sections
       .map((section) => {
         const trimmed = section.trim();
         if (!trimmed) return "";
+
+        // Check if this section contains bullet points
+        if (trimmed.includes("\n- ") || trimmed.startsWith("- ")) {
+          // Convert bullet points to list items
+          const listItems = trimmed
+            .split("\n")
+            .map((line) => {
+              if (line.trim().startsWith("- ")) {
+                const content = line.trim().substring(2);
+                return `  <li class="mb-2 text-muted-foreground leading-relaxed">${content}</li>`;
+              }
+              return line;
+            })
+            .join("\n");
+
+          return `<ul class="list-disc list-inside mb-6 space-y-2">\n${listItems}\n</ul>`;
+        }
 
         // Skip if already contains HTML tags
         if (trimmed.includes("<")) {
@@ -190,43 +200,6 @@ export default function BlogPostClient({
 
         {/* Article Header */}
         <article className="max-w-3xl mx-auto px-6">
-          {/* <header className="mb-8">
-            <div className="mb-4 flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="secondary"
-                  className="text-xs font-normal tracking-wide uppercase px-2 py-1"
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-
-            <h1 className="text-2xl md:text-3xl font-bold leading-tight mb-4">
-              {post.title}
-            </h1>
-
-            <p className="text-base text-muted-foreground leading-relaxed mb-6">
-              {post.description}
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-8 pb-8 border-b border-muted-foreground/20">
-              <div className="flex items-center gap-2">
-                <User className="h-3 w-3" />
-                <span className="font-medium">{post.author}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Calendar className="h-3 w-3" />
-                <span>{formatDate(post.date)}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-3 w-3" />
-                <span>{post.readTime}</span>
-              </div>
-            </div>
-          </header> */}
-
           {/* Article Content */}
           <div className="prose prose-base max-w-none">
             {post.content ? (
