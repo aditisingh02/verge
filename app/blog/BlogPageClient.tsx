@@ -159,37 +159,6 @@ export default function BlogPageClient({ blogPosts }: BlogPageClientProps) {
           </div>
         </div>
       </section>
-
-      {/* Newsletter Section */}
-      <section className="relative z-10 py-24 px-6 bg-black/20">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Stay up to date</h2>
-          <p className="text-muted-foreground mb-8 leading-relaxed">
-            Get notified when we publish something new, and unsubscribe at any
-            time.
-          </p>
-
-          <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-lg border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              required
-            />
-            <Button type="submit" className="px-6">
-              Subscribe
-            </Button>
-          </form>
-
-          <p className="text-xs text-muted-foreground mt-4">
-            We care about your data. Read our{" "}
-            <Link href="#" className="underline hover:no-underline">
-              privacy policy
-            </Link>
-            .
-          </p>
-        </div>
-      </section>
     </>
   );
 }
