@@ -37,6 +37,7 @@ export default function BlogPageClient({ blogPosts }: BlogPageClientProps) {
     const imageMap: Record<string, string> = {
       "accessibility-in-design": "/cube.gif",
       "color-theory-basics": "/verge-screen.png",
+      "60-30-10": "/60-30-10.png",
       default: "/verge.gif",
     };
     return imageMap[slug] || imageMap.default;
