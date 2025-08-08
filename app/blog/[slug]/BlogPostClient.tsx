@@ -29,7 +29,19 @@ export default function BlogPostClient({
     // Simple markdown to HTML conversion
     let html = content;
 
-    // Convert headings
+    // Convert headings (order matters - start with most specific)
+    html = html.replace(
+      /^###### (.+)$/gm,
+      '<h6 class="text-sm font-medium mt-6 mb-2 text-foreground">$1</h6>'
+    );
+    html = html.replace(
+      /^##### (.+)$/gm,
+      '<h5 class="text-sm font-semibold mt-6 mb-3 text-foreground">$1</h5>'
+    );
+    html = html.replace(
+      /^#### (.+)$/gm,
+      '<h4 class="text-base font-semibold mt-7 mb-3 text-foreground">$1</h4>'
+    );
     html = html.replace(
       /^### (.+)$/gm,
       '<h3 class="text-lg font-semibold mt-8 mb-4 text-foreground">$1</h3>'
@@ -49,6 +61,9 @@ export default function BlogPostClient({
       '<strong class="font-semibold text-foreground">$1</strong>'
     );
     html = html.replace(/\*([^*\n]+)\*/g, '<em class="italic">$1</em>');
+
+    // Convert underscore italic
+    html = html.replace(/_([^_\n]+)_/g, '<em class="italic">$1</em>');
 
     // Convert inline code
     html = html.replace(
@@ -72,6 +87,12 @@ export default function BlogPostClient({
     html = html.replace(
       /^> (.+)$/gm,
       '<blockquote class="border-l-4 border-primary pl-6 py-2 italic text-muted-foreground my-6 bg-muted/30 rounded-r">$1</blockquote>'
+    );
+
+    // Convert horizontal rules (dividers)
+    html = html.replace(
+      /^---+$/gm,
+      '<hr class="border-t border-muted-foreground/30 my-8" />'
     );
 
     // Convert paragraphs and handle bullet points (split by double newlines)
@@ -113,6 +134,42 @@ export default function BlogPostClient({
             .join("\n");
 
           return `<ol class="list-decimal list-inside mb-6 space-y-2">\n${listItems}\n</ol>`;
+        }
+
+        // Check if this section contains a table
+        if (trimmed.includes("|") && trimmed.includes("---")) {
+          const lines = trimmed.split("\n");
+          let tableHtml =
+            '<table class="w-full border-collapse border border-muted mb-6">\n';
+
+          lines.forEach((line, index) => {
+            const trimmedLine = line.trim();
+            if (!trimmedLine || trimmedLine.includes("---")) return;
+
+            const cells = trimmedLine
+              .split("|")
+              .map((cell) => cell.trim())
+              .filter((cell) => cell);
+
+            if (index === 0) {
+              // Header row
+              tableHtml += '  <thead class="bg-muted/50">\n    <tr>\n';
+              cells.forEach((cell) => {
+                tableHtml += `      <th class="border border-muted px-4 py-2 text-left font-semibold text-foreground">${cell}</th>\n`;
+              });
+              tableHtml += "    </tr>\n  </thead>\n  <tbody>\n";
+            } else {
+              // Data row
+              tableHtml += '    <tr class="hover:bg-muted/30">\n';
+              cells.forEach((cell) => {
+                tableHtml += `      <td class="border border-muted px-4 py-2 text-muted-foreground">${cell}</td>\n`;
+              });
+              tableHtml += "    </tr>\n";
+            }
+          });
+
+          tableHtml += "  </tbody>\n</table>";
+          return tableHtml;
         }
 
         // Skip if already contains HTML tags
