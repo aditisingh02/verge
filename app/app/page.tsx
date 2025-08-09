@@ -33,6 +33,12 @@ export default function App() {
     "generate"
   );
 
+  // Track current generator settings
+  const [currentBaseColor, setCurrentBaseColor] = useState("#006156");
+  const [currentHarmonyType, setCurrentHarmonyType] = useState<
+    "complementary" | "analogous" | "triadic" | "split-complementary"
+  >("analogous");
+
   const handleGeneratePalette = async (
     baseColor: string,
     harmonyType:
@@ -124,6 +130,8 @@ export default function App() {
                 <PaletteGenerator
                   onGenerate={handleGeneratePalette}
                   isGenerating={isGenerating}
+                  onBaseColorChange={setCurrentBaseColor}
+                  onHarmonyTypeChange={setCurrentHarmonyType}
                 />
               </TabsContent>
 
@@ -204,10 +212,18 @@ export default function App() {
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
                       <Button
                         className="gap-2"
-                        onClick={() => setActiveTab("generate")}
+                        onClick={() => {
+                          setActiveTab("generate");
+                          // Generate a palette with the current base color and harmony type
+                          handleGeneratePalette(
+                            currentBaseColor,
+                            currentHarmonyType
+                          );
+                        }}
+                        disabled={isGenerating}
                       >
                         <Sparkles className="h-4 w-4" />
-                        Generate Palette
+                        {isGenerating ? "Generating..." : "Generate Palette"}
                       </Button>
                       <Button
                         variant="outline"

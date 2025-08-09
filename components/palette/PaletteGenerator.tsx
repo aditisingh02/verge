@@ -21,11 +21,21 @@ interface PaletteGeneratorProps {
       | "split-complementary"
   ) => void;
   isGenerating?: boolean;
+  onBaseColorChange?: (color: string) => void;
+  onHarmonyTypeChange?: (
+    harmonyType:
+      | "complementary"
+      | "analogous"
+      | "triadic"
+      | "split-complementary"
+  ) => void;
 }
 
 export function PaletteGenerator({
   onGenerate,
   isGenerating = false,
+  onBaseColorChange,
+  onHarmonyTypeChange,
 }: PaletteGeneratorProps) {
   const [baseColor, setBaseColor] = useState("#006156");
   const [harmonyType, setHarmonyType] = useState<
@@ -40,7 +50,10 @@ export function PaletteGenerator({
     <div className="space-y-4">
       <ColorPicker
         value={baseColor}
-        onChange={setBaseColor}
+        onChange={(color) => {
+          setBaseColor(color);
+          onBaseColorChange?.(color);
+        }}
         onGenerate={handleGenerate}
         isGenerating={isGenerating}
       />
@@ -53,9 +66,11 @@ export function PaletteGenerator({
             </label>
             <Select
               value={harmonyType}
-              onValueChange={(value) =>
-                setHarmonyType(value as typeof harmonyType)
-              }
+              onValueChange={(value) => {
+                const newHarmonyType = value as typeof harmonyType;
+                setHarmonyType(newHarmonyType);
+                onHarmonyTypeChange?.(newHarmonyType);
+              }}
             >
               <SelectTrigger className="h-9">
                 <SelectValue />
