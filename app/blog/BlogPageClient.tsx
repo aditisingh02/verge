@@ -35,10 +35,10 @@ export default function BlogPageClient({ blogPosts }: BlogPageClientProps) {
 
   const getImageForPost = (slug: string) => {
     const imageMap: Record<string, string> = {
-      "accessibility-in-design": "/cube.gif",
-      "color-theory-basics": "/verge-screen.png",
+      "accessibility-in-design": "/verge-images-blog.gif",
+      "color-theory-basics": "/screen.png",
       "60-30-10": "/60-30-10.png",
-      default: "/verge.gif",
+      default: "/verge-images-blog.gif",
     };
     return imageMap[slug] || imageMap.default;
   };
