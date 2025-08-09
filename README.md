@@ -1,12 +1,10 @@
-<div align="center">
-  <img src="verge.gif" alt="Verge" width="200" />
-</div>
-
 # Verge - Your Palette,Perfected
 
 **_Pick a mood. Paint your story. Make every pixel count._**
 
 Verge is a modern color palette generator designed to help you create beautiful, accessible, and harmonious color schemes for any design project. It utilizes established color theory principles (like complementary, analogous, triadic, and split-complementary) and provides real-time WCAG accessibility checks, previews on real UI components, support for color blindness simulation, and multiple export formats (CSS, Tailwind, JSON, Figma). Verge makes it easy for designers and developers of all levels to generate, customize, and apply palettes that are both visually appealing and inclusive.
+
+<img width="1919" height="878" alt="image" src="https://github.com/user-attachments/assets/3ba4f952-ecba-4796-85d1-ced7d868b0c3" />
 
 **Key Highlights:**
 
@@ -144,5 +142,4 @@ Contributions are accepted. Submit a Pull Request.
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
-
-- Accessibility guidelines from WCAG 2.1
+Accessibility guidelines from WCAG 2.1
